@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6C960156-3A0C-4277-9D08-3DA01FC3D1F7}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BIO.Projekt.Face3D</RootNamespace>
+    <AssemblyName>BIO3DFace</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BIO.Framework">
+      <HintPath>..\..\..\framework\BIO.Framework\bin\x86\Debug\BIO.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="BIO.Framework.Extensions.Emgu">
+      <HintPath>..\..\..\framework\BIO.Framework.Extensions.Emgu\bin\x86\Debug\BIO.Framework.Extensions.Emgu.dll</HintPath>
+    </Reference>
+    <Reference Include="BIO.Framework.Utils.Console">
+      <HintPath>..\..\..\framework\BIO.Framework.Utils.Console\bin\x86\Debug\BIO.Framework.Utils.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="BIO.Framework.Utils.UI">
+      <HintPath>..\..\..\framework\BIO.Framework.Utils.UI\bin\x86\Debug\BIO.Framework.Utils.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="BIO.Project">
+      <HintPath>..\..\..\framework\BIO.Project\bin\x86\Debug\BIO.Project.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV">
+      <HintPath>..\..\..\framework\ExternalLibs\Emgu\Emgu.CV.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.UI">
+      <HintPath>..\..\..\framework\ExternalLibs\Emgu\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.Util">
+      <HintPath>..\..\..\framework\ExternalLibs\Emgu\Emgu.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Face3DEvaluationSettings.cs" />
+    <Compile Include="Face3DSilhouetteFeatureVector.cs" />
+    <Compile Include="Face3DSilhouetteComparator.cs" />
+    <Compile Include="Face3DDatabaseCreator.cs" />
+    <Compile Include="Face3DSilhouetteFeatureVectorExtractor.cs" />
+    <Compile Include="Face3DInputDataCreator.cs" />
+    <Compile Include="Face3DSilhouetteProcessingBlockComponents.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="ProjectSettings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
