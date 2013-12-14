@@ -33,14 +33,17 @@ namespace BIO.Projekt.Face3D
                 dst[i].Y = templated.Silhouette[i];
             }
 
-            HomographyMatrix matrix = CameraCalibration.FindHomography(src, dst, HOMOGRAPHY_METHOD.RANSAC,5);
+            HomographyMatrix matrix = CameraCalibration.FindHomography(src, dst, HOMOGRAPHY_METHOD.RANSAC,1);
             matrix.ProjectPoints(src);
 
             foreach (PointF p in src)
             {
                 int i = (int)Math.Floor(p.X);
-                if(i > n-1 || i < 0)
+                if (i > n - 1 || i < 0)
+                {
                     continue;
+                }
+                    
                 sum += Math.Abs(p.Y - dst[i].Y);
             }
             return new MatchingScore(sum);
