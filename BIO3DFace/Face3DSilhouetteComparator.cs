@@ -33,9 +33,12 @@ namespace BIO.Projekt.Face3D
                 dst[i].Y = templated.Silhouette[i];
             }
 
-            HomographyMatrix matrix = CameraCalibration.FindHomography(src, dst, HOMOGRAPHY_METHOD.RANSAC,1);
+            HomographyMatrix matrix = CameraCalibration.FindHomography(src, dst,HOMOGRAPHY_METHOD.RANSAC,3);
             matrix.ProjectPoints(src);
-
+            double angleX = Math.Atan2(matrix.Data[2, 1], matrix.Data[2, 2]);
+            double angleY = Math.Atan2(-matrix.Data[2, 0], Math.Sqrt(matrix.Data[2, 1]*matrix.Data[2, 1]+matrix.Data[2, 2]*matrix.Data[2, 2]));
+            double angleZ = Math.Atan2(matrix.Data[1, 0], matrix.Data[0, 0]);
+            
             foreach (PointF p in src)
             {
                 int i = (int)Math.Floor(p.X);

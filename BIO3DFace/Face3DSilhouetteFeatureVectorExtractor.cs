@@ -9,6 +9,10 @@ using BIO.Framework.Core.FeatureVector;
 using BIO.Framework.Extensions.Emgu.InputData;
 using BIO.Framework.Extensions.Emgu.FeatureVector;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using Emgu.CV.CvEnum;
+using Emgu.CV.Structure;
 
 namespace BIO.Projekt.Face3D
 {
@@ -21,43 +25,48 @@ namespace BIO.Projekt.Face3D
                 throw new InvalidOperationException("Image size has to be 100x100 pixels");
 
             var originalImage = input.Image;
-            var mirrorImage = input.Image.Flip(Emgu.CV.CvEnum.FLIP.HORIZONTAL);
 
-            if (input.FileName.Equals("d:\\db\\face\\2D\\frgc\\2463-1-small-range.png"))
+            int max = originalImage.Bitmap.GetPixel(49, 49).B;
+            int x = 49,y = 49;
+            int nextX = 0, nextY = 0;
+            while (true)
             {
-
-            }
-
-            // vytvorenie deketoru SURF
-            SURFDetector detector = new SURFDetector(500, false);
-
-            // detekcia SURF v originalnom snimku
-            ImageFeature[] origImageSURF = detector.DetectFeatures(originalImage, null);
-
-            if (input.FileName.Equals("d:\\db\\face\\2D\\frgc\\2463-1-small-range.png"))
-            {
-                Bitmap origBitmap = originalImage.ToBitmap();
-                foreach (ImageFeature p in origImageSURF)
+                
+                for (int ix = -4; ix < 5; ix++)
                 {
-                    origBitmap.SetPixel((int)p.KeyPoint.Point.X, (int)p.KeyPoint.Point.Y, System.Drawing.Color.Red);
+                    for (int iy = -4; iy < 5; iy++)
+                    {
+                        int val = originalImage.Bitmap.GetPixel(x+ix, y+iy).B;
+                        if (val > max)
+                        {
+                            max = val;
+                            nextX = x + ix;
+                            nextY = y + iy;
+                        }
+                    }
                 }
-                Image<Emgu.CV.Structure.Gray, Byte> origImageCopy = new Image<Emgu.CV.Structure.Gray, Byte>(origBitmap);
-
-                Emgu.CV.UI.ImageViewer.Show(origImageCopy, "SURF");
+                if (nextX == x && nextY == y)
+                {
+                    break;
+                }
+                x = nextX;
+                y = nextY;
             }
-
-            // // detekcia SURF v zrkadlovo otocenom snimku
-            ImageFeature[] mirrorImageSURF = detector.DetectFeatures(mirrorImage, null);
-
-            PointF x = origImageSURF[1].KeyPoint.Point;
-            
-            var featureVector = new Face3DSilhouetteFeatureVector(100);
-
-            for (int y = 0; y < 100; y++)
+            var featureVector = new Face3DSilhouetteFeatureVector(200);
+            for (int yp = 0; yp < 100; yp++)
             {
-                featureVector.Silhouette[y] = originalImage.Bitmap.GetPixel(50, y).G;
+                int pos = x;
+                if(pos < 0)
+                    pos += 100;
+                featureVector.Silhouette[yp] = originalImage.Bitmap.GetPixel(pos, yp).G;
             }
-
+            for (int yp = 0; yp < 100; yp++)
+            {
+                int pos = y;
+                if (pos < 0)
+                    pos += 100;
+                featureVector.Silhouette[100+yp] = originalImage.Bitmap.GetPixel(yp, pos).G;
+            }
             return featureVector;
         }
     }
