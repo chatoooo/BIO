@@ -10,8 +10,9 @@ using BIO.Framework.Core.FeatureVector;
 using BIO.Framework.Extensions.Emgu.InputData;
 using BIO.Framework.Extensions.Emgu.FeatureVector;
 using System.Drawing;
-
-//Emgu.CV.UI.ImageViewer.Show(new Image<Gray, Byte>(bestRotatedBitmap), "Ahoj");
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using Emgu.CV.CvEnum;
 
 namespace BIO.Projekt.Face3D
 {
@@ -66,22 +67,11 @@ namespace BIO.Projekt.Face3D
             
             var featureVector = new Face3DSilhouetteFeatureVector(100);
 
-            //Bitmap newBmp222 = new Bitmap(100, 100, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-            //using (Graphics gfx = Graphics.FromImage(newBmp222))
-            //{
-            //    gfx.DrawImage(bestRotatedBitmap, 0, 0);
-            //}
-
             // zbehni v smere y po linii x = 50
             for (int y = 0; y < 100; y++)
             {
                 featureVector.Silhouette[y] = bestRotatedBitmap.GetPixel(symmetryPlaneX, y).G;
-            //    newBmp222.SetPixel(symmetryPlaneX, y, System.Drawing.Color.Black);
             }
-
-
-            //Emgu.CV.UI.ImageViewer.Show(new Image<Gray, Byte>(newBmp222), "Ahoj");
 
             return featureVector;
         }
