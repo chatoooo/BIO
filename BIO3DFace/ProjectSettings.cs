@@ -31,7 +31,7 @@ namespace BIO.Projekt.Face3D
         /// </summary>
         public override IDatabaseCreator<StandardRecord<StandardRecordData>> getDatabaseCreator()
         {
-            return new Face3DDatabaseCreator(@"c:\Users\Honza\Documents\Skola\BIO\frgc");
+            return new Face3DDatabaseCreator(@"d:\db\face\2D\frgc");
         }
 
         /// <summary>

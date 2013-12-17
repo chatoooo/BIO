@@ -17,32 +17,13 @@ namespace BIO.Projekt.Face3D
         public MatchingScore computeMatchingScore(Face3DSilhouetteFeatureVector extracted, Face3DSilhouetteFeatureVector templated)
         {
             double sum = 0;
-
-            int n = extracted.Silhouette.GetLength(0);
-            PointF[] src = new PointF[n];
-            for (int i = 0; i < n; i++)
+            var extrSilhouette = extracted.Silhouette;
+            var templateSilhouette = templated.Silhouette;
+            for (int i = 0; i < extrSilhouette.Length; i++)
             {
-                src[i].X = i;
-                src[i].Y = extracted.Silhouette[i];
+                sum += Math.Abs(extrSilhouette[i] - templateSilhouette[i]);
             }
 
-            PointF[] dst = new PointF[n];
-            for (int i = 0; i < n; i++)
-            {
-                dst[i].X = i;
-                dst[i].Y = templated.Silhouette[i];
-            }
-
-            HomographyMatrix matrix = CameraCalibration.FindHomography(src, dst, HOMOGRAPHY_METHOD.RANSAC,5);
-            matrix.ProjectPoints(src);
-
-            foreach (PointF p in src)
-            {
-                int i = (int)Math.Floor(p.X);
-                if(i > n-1 || i < 0)
-                    continue;
-                sum += Math.Abs(p.Y - dst[i].Y);
-            }
             return new MatchingScore(sum);
         }
     }
