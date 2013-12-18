@@ -64,15 +64,39 @@ namespace BIO.Projekt.Face3D
             }
 
             var symmetryPlaneX = getSymmetryPlaneXCoord(bestRotatedBitmap);
-            
-            var featureVector = new Face3DSilhouetteFeatureVector(100);
+            int nose_index = -1,max_val = 0;
+            for (int i = 0; i < 100; i++)
+            {
+                int v = bestRotatedBitmap.GetPixel(symmetryPlaneX, i).G;
+                if (max_val < v)
+                {
+                    max_val = v;
+                    nose_index = i;
+                }
+            }
+
+            var featureVector = new Face3DSilhouetteFeatureVector(500);
 
             // zbehni v smere y po linii x = 50
             for (int y = 0; y < 100; y++)
             {
+                //vertikalni siluety
                 featureVector.Silhouette[y] = bestRotatedBitmap.GetPixel(symmetryPlaneX, y).G;
-            }
+                featureVector.Silhouette[y + 100] = bestRotatedBitmap.GetPixel(symmetryPlaneX - 25, y).G;
+                featureVector.Silhouette[y + 200] = bestRotatedBitmap.GetPixel(symmetryPlaneX + 25, y).G;
 
+                //horizontální siluety
+                if (nose_index > 25)
+                {
+                    featureVector.Silhouette[y + 300] = bestRotatedBitmap.GetPixel(y, nose_index).G;
+                    featureVector.Silhouette[y + 400] = bestRotatedBitmap.GetPixel(y, nose_index - 25).G;
+                }
+                else
+                {
+                    featureVector.Silhouette[y + 300] = -1;
+                    featureVector.Silhouette[y + 400] = -1;
+                }
+            }
             return featureVector;
         }
 

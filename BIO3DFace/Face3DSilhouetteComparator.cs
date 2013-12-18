@@ -21,7 +21,10 @@ namespace BIO.Projekt.Face3D
             var templateSilhouette = templated.Silhouette;
             for (int i = 0; i < extrSilhouette.Length; i++)
             {
-                sum += Math.Abs(extrSilhouette[i] - templateSilhouette[i]);
+                if (extrSilhouette[i] != -1 && templateSilhouette[i] != -1)
+                {
+                    sum += Math.Abs(extrSilhouette[i] - templateSilhouette[i]);
+                }
             }
 
             return new MatchingScore(sum);
